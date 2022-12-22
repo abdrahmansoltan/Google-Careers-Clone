@@ -9,4 +9,6 @@
   // ------prettier rules------ //
   "prettier.trailingComma": "es5",
   "prettier.singleQuote": false,
+
+  "css.lint.unknownAtRules": "ignore" // ignore unknown rules like: "@tailwind"
 }
