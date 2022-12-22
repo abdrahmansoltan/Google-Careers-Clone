@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "eslint.validate": ["javascript", "vue"], // types of files we want to lint
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // for double-checking if the above general-rule didn't apply for Javascript
+  },
+  // ------prettier rules------ //
+  "prettier.trailingComma": "es5",
+  "prettier.singleQuote": false,
+}
