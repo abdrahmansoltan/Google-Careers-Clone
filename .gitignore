@@ -21,3 +21,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Test coverage Folders
+coverage
+test-coverage
+vue-test-coverage
