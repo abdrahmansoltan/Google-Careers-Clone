@@ -12,6 +12,7 @@
   // ------prettier rules------ //
   "prettier.trailingComma": "es5",
   "prettier.singleQuote": false,
+  "prettier.arrowParens": "always",
 
   "css.lint.unknownAtRules": "ignore", // ignore unknown rules like: "@tailwind"
   "prettier.printWidth": 80,
