@@ -1,4 +1,4 @@
-import SubNav from "@/components/SubNav.vue";
+import SubNav from "@/components/Navigation/SubNav.vue";
 import { mount } from "@vue/test-utils";
 
 describe("SubNav", () => {
