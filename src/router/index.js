@@ -1,5 +1,3 @@
-import HomeView from "@/views/HomeView.vue";
-import JobResultsView from "@/views/JobResultsView.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 // lazy loading
@@ -19,6 +17,11 @@ const routes = [
     path: "/jobs/results",
     name: "JobResults",
     component: JobResultsView,
+  },
+  {
+    path: "/jobs/results/:id",
+    name: "JobListing",
+    component: JobView,
   },
 ];
 
