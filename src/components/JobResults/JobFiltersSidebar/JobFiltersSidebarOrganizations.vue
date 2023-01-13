@@ -29,7 +29,10 @@
 
 <script>
 import Accordion from "@/components/Common/Accordion.vue";
-import { ADD_SELECTED_ORGANIZATIONS, UNIQUE_ORGANIZATIONS } from "@/store";
+import {
+  ADD_SELECTED_ORGANIZATIONS,
+  UNIQUE_ORGANIZATIONS,
+} from "@/store/constants";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "JobFiltersSidebarOrganizations",
