@@ -1,5 +1,5 @@
 import getJobs from "@/api/getJobs";
-import { actions, mutations, state } from "@/store";
+import { actions, getters, mutations, state } from "@/store";
 
 jest.mock("@/api/getJobs"); // must be outside any suit
 
@@ -12,6 +12,11 @@ describe("state", () => {
   it("stores job listings", () => {
     const startingState = state();
     expect(startingState.jobs).toEqual([]);
+  });
+
+  it("stores organizations that the user would like to filter jobs by", () => {
+    const startingState = state();
+    expect(startingState.selectedOrganizations).toEqual([]);
   });
 });
 
@@ -30,6 +35,68 @@ describe("mutations", () => {
       const data = ["job 1", "job 2"];
       mutations.RECEIVE_JOBS(state, data);
       expect(state).toEqual({ jobs: ["job 1", "job 2"] });
+    });
+  });
+
+  describe("ADD_SELECTED_ORGANIZATIONS", () => {
+    it("updates organizations that the user has chosen to filter jobs by", () => {
+      const state = { selectedOrganizations: [] };
+      const data = ["Org1", "Org2"];
+      mutations.ADD_SELECTED_ORGANIZATIONS(state, data);
+      expect(state).toEqual({ selectedOrganizations: ["Org1", "Org2"] });
+    });
+  });
+});
+
+describe("getters", () => {
+  describe("UNIQUE_ORGANIZATIONS", () => {
+    it("finds unique organizations from list of jobs", () => {
+      const state = {
+        jobs: [
+          { organization: "Google" },
+          { organization: "Amazon" },
+          { organization: "Google" },
+        ],
+      };
+      const result = getters.UNIQUE_ORGANIZATIONS(state);
+      expect(result).toEqual(new Set(["Google", "Amazon"]));
+    });
+  });
+
+  describe("FILTERED_JOBS_BY_ORGANIZATION", () => {
+    it("identifies jobs that are associated with the given organizations", () => {
+      const state = {
+        jobs: [
+          { organization: "Google" },
+          { organization: "Amazon" },
+          { organization: "Meta" },
+        ],
+        selectedOrganizations: ["Google", "Amazon"],
+      };
+      const result = getters.FILTERED_JOBS_BY_ORGANIZATION(state);
+      expect(result).toEqual([
+        { organization: "Google" },
+        { organization: "Amazon" },
+      ]);
+    });
+
+    describe("when user hasn't select any organizations", () => {
+      it("returns all jobs", () => {
+        const state = {
+          jobs: [
+            { organization: "Google" },
+            { organization: "Amazon" },
+            { organization: "Meta" },
+          ],
+          selectedOrganizations: [],
+        };
+        const result = getters.FILTERED_JOBS_BY_ORGANIZATION(state);
+        expect(result).toEqual([
+          { organization: "Google" },
+          { organization: "Amazon" },
+          { organization: "Meta" },
+        ]);
+      });
     });
   });
 });

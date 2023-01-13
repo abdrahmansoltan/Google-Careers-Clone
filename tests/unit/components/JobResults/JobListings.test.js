@@ -9,8 +9,12 @@ describe("JobListings", () => {
     },
   });
   const createStore = (config = {}) => ({
-    state: {
-      jobs: Array(15).fill({}),
+    // state: {
+    //   jobs: Array(15).fill({}),
+    //   selectedOrganizations: [],
+    // },
+    getters: {
+      FILTERED_JOBS_BY_ORGANIZATION: [],
     },
     dispatch: jest.fn(),
     ...config, // to overRide these default values if needed or add additional properties
@@ -41,8 +45,8 @@ describe("JobListings", () => {
     const $route = createRoute(queryParams);
     const numOfJobsInStore = 15;
     const $store = createStore({
-      state: {
-        jobs: Array(numOfJobsInStore).fill({}),
+      getters: {
+        FILTERED_JOBS_BY_ORGANIZATION: Array(numOfJobsInStore).fill({}),
       },
     });
     const wrapper = shallowMount(JobListings, createConfig($route, $store));
@@ -83,7 +87,11 @@ describe("JobListings", () => {
     it("shows link to next page", async () => {
       const queryParams = { page: "1" };
       const $route = createRoute(queryParams);
-      const $store = createStore();
+      const $store = createStore({
+        getters: {
+          FILTERED_JOBS_BY_ORGANIZATION: Array(15).fill({}),
+        },
+      });
       const wrapper = shallowMount(JobListings, createConfig($route, $store));
       await flushPromises();
       const nextPage = wrapper.find("[data-test='next-page-link']");
