@@ -20,7 +20,7 @@
 <script>
 import Accordion from "@/components/Common/Accordion.vue";
 import ActionButton from "@/components/Common/ActionButton.vue";
-import JobFiltersSidebarOrganizations from "@/components/JobSearch/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue";
+import JobFiltersSidebarOrganizations from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue";
 export default {
   name: "JobFiltersSidebar",
   components: { ActionButton, Accordion, JobFiltersSidebarOrganizations },
