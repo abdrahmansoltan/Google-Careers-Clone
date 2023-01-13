@@ -3,7 +3,6 @@ import axios from "axios";
 
 // Must be on the same scope as your `import` to be hoisted to the top of the file not the scope
 jest.mock("axios"); // mock the axios object and all its methods as jest functions
-console.log(axios);
 
 describe("getJobs", () => {
   beforeEach(() => {
