@@ -53,6 +53,7 @@ export default {
     }),
     selectOrganizations() {
       this.addSelectedOrganizations(this.selectedOrganizations);
+      this.$router.push({ name: "JobResults" });
     },
   },
 };

@@ -50,6 +50,7 @@ export default {
     }),
     selectJobTypes() {
       this.addSelectedJobTypes(this.selectedJobTypes);
+      this.$router.push({ name: "JobResults" });
     },
   },
 };

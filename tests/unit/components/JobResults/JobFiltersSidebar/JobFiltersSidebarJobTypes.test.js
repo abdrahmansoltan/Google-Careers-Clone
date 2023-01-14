@@ -4,10 +4,11 @@ JobFiltersSidebarJobTypes;
 mount;
 
 describe("JobFiltersSidebarJobTypes", () => {
-  const createConfig = ($store) => ({
+  const createConfig = ($store, $router) => ({
     global: {
       mocks: {
         $store,
+        $router,
       },
       stubs: {
         FontAwesomeIcon: true, // from accordion component
@@ -21,8 +22,12 @@ describe("JobFiltersSidebarJobTypes", () => {
         UNIQUE_JOB_TYPES: new Set(["Full-time", "Part-time"]),
       },
     };
+    const $router = { push: jest.fn() };
     // here we mount and not shallowMount as we need to render the accordion component
-    const wrapper = mount(JobFiltersSidebarJobTypes, createConfig($store));
+    const wrapper = mount(
+      JobFiltersSidebarJobTypes,
+      createConfig($store, $router)
+    );
 
     const clickableArea = wrapper.find("[data-test='clickable-area']");
     await clickableArea.trigger("click");
@@ -32,22 +37,50 @@ describe("JobFiltersSidebarJobTypes", () => {
     expect(jobTypes).toEqual(["Full-time", "Part-time"]);
   });
 
-  it("communicates that user has selected checkbox for job types", async () => {
-    const commit = jest.fn();
-    const $store = {
-      getters: {
-        UNIQUE_JOB_TYPES: new Set(["Full-time", "Part-time"]),
-      },
-      commit,
-    };
-    const wrapper = mount(JobFiltersSidebarJobTypes, createConfig($store));
-    const clickableArea = wrapper.find("[data-test='clickable-area']");
-    await clickableArea.trigger("click");
+  describe("when user clicks checkbox", () => {
+    it("communicates that user has selected checkbox for job types", async () => {
+      const commit = jest.fn();
+      const $store = {
+        getters: {
+          UNIQUE_JOB_TYPES: new Set(["Full-time", "Part-time"]),
+        },
+        commit,
+      };
+      const $router = { push: jest.fn() };
+      const wrapper = mount(
+        JobFiltersSidebarJobTypes,
+        createConfig($store, $router)
+      );
+      const clickableArea = wrapper.find("[data-test='clickable-area']");
+      await clickableArea.trigger("click");
 
-    const fullTimeInput = wrapper.find("[data-test='Full-time']");
-    await fullTimeInput.setChecked();
-    expect(commit).toHaveBeenCalledWith("ADD_SELECTED_JOB_TYPES", [
-      "Full-time",
-    ]);
+      const fullTimeInput = wrapper.find("[data-test='Full-time']");
+      await fullTimeInput.setChecked();
+      expect(commit).toHaveBeenCalledWith("ADD_SELECTED_JOB_TYPES", [
+        "Full-time",
+      ]);
+    });
+
+    it("navigates user to job results page to see fresh batch of filtered jobs", async () => {
+      const $store = {
+        getters: {
+          UNIQUE_JOB_TYPES: new Set(["Full-time", "Part-time"]),
+        },
+        commit: jest.fn(),
+      };
+      const push = jest.fn();
+      const $router = { push };
+      const wrapper = mount(
+        JobFiltersSidebarJobTypes,
+        createConfig($store, $router)
+      );
+      const clickableArea = wrapper.find("[data-test='clickable-area']");
+      await clickableArea.trigger("click");
+
+      const fullTimeInput = wrapper.find("[data-test='Full-time']");
+      await fullTimeInput.setChecked();
+
+      expect(push).toHaveBeenCalledWith({ name: "JobResults" });
+    });
   });
 });
