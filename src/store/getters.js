@@ -1,7 +1,5 @@
 import {
   FILTERED_JOBS,
-  FILTERED_JOBS_BY_JOB_TYPES,
-  FILTERED_JOBS_BY_ORGANIZATION,
   INCLUDE_JOB_BY_JOB_TYPE,
   INCLUDE_JOB_BY_ORGANIZATION,
   UNIQUE_JOB_TYPES,
@@ -18,18 +16,6 @@ const getters = {
     const uniqueJobTypes = new Set();
     state.jobs.forEach((job) => uniqueJobTypes.add(job.jobType));
     return uniqueJobTypes;
-  },
-  [FILTERED_JOBS_BY_ORGANIZATION](state) {
-    if (state.selectedOrganizations.length === 0) return state.jobs;
-    return state.jobs.filter((job) =>
-      state.selectedOrganizations.includes(job.organization)
-    );
-  },
-  [FILTERED_JOBS_BY_JOB_TYPES](state) {
-    if (state.selectedJobTypes.length === 0) return state.jobs; // Guard clause to always include job even if nothing selected to continue filtering
-    return state.jobs.filter((job) =>
-      state.selectedJobTypes.includes(job.jobType)
-    );
   },
   [FILTERED_JOBS](state, getters) {
     // using helper-getters functions
