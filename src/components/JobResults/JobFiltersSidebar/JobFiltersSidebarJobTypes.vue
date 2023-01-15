@@ -29,29 +29,32 @@
 
 <script>
 import Accordion from "@/components/Common/Accordion.vue";
-import { ADD_SELECTED_JOB_TYPES, UNIQUE_JOB_TYPES } from "@/store/constants";
-import { mapGetters, mapMutations } from "vuex";
+import { useUniqueJobTypes } from "@/store/composables";
+import { ADD_SELECTED_JOB_TYPES } from "@/store/constants";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default {
   name: "JobFiltersSidebarOrganizations",
   components: { Accordion },
-  data() {
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    const selectedJobTypes = ref([]);
+    const uniqueJobTypes = useUniqueJobTypes();
+
+    const selectJobTypes = store.commit(
+      ADD_SELECTED_JOB_TYPES,
+      selectedJobTypes.value
+    );
+    router.push({ name: "JobResults" });
+
     return {
-      selectedJobTypes: [],
+      selectedJobTypes,
+      uniqueJobTypes,
+      selectJobTypes,
     };
-  },
-  computed: {
-    ...mapGetters({
-      uniqueJobTypes: UNIQUE_JOB_TYPES,
-    }),
-  },
-  methods: {
-    ...mapMutations({
-      addSelectedJobTypes: ADD_SELECTED_JOB_TYPES,
-    }),
-    selectJobTypes() {
-      this.addSelectedJobTypes(this.selectedJobTypes);
-      this.$router.push({ name: "JobResults" });
-    },
   },
 };
 </script>

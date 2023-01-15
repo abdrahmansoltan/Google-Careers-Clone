@@ -39,27 +39,29 @@
 <script>
 import ActionButton from "@/components/Common/ActionButton.vue";
 import TextInput from "@/components/Common/TextInput.vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   name: "JobSearchForm",
   components: { ActionButton, TextInput },
-  data() {
-    return {
-      role: "",
-      location: "",
-    };
-  },
-  computed: {},
-  methods: {
-    searchForJobs() {
-      this.$router.push({
+  setup() {
+    const router = useRouter();
+
+    const role = ref("");
+    const location = ref("");
+
+    const searchForJobs = () => {
+      router.push({
         name: "JobResults",
         query: {
-          role: this.role,
-          location: this.location,
+          role: role.value,
+          location: location.value,
         },
       });
-    },
+    };
+
+    return { role, location, searchForJobs };
   },
 };
 </script>

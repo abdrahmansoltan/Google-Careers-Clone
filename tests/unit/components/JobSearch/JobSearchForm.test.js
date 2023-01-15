@@ -1,21 +1,18 @@
 import JobSearchForm from "@/components/JobSearch/JobSearchForm.vue";
 import { mount } from "@vue/test-utils";
+import { useRouter } from "vue-router";
+
+jest.mock("vue-router");
 
 describe("JobSearchForm", () => {
   describe("when user submits form", () => {
     it("directs user to job results page with user's search parameters", async () => {
       const push = jest.fn();
-      const $router = {
-        push,
-      };
+      useRouter.mockReturnValue({ push });
 
       const wrapper = mount(JobSearchForm, {
         attachTo: document.body, // to be able to mount it to the DOM so that Buttons can be clicked and submitted
         global: {
-          mocks: {
-            // mock $router object with the dummy one from jest with a method "push"
-            $router,
-          },
           stubs: {
             FontAwesomeIcon: true,
           },
