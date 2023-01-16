@@ -1,7 +1,7 @@
 import {
-  useUniqueJobTypes,
-  uniqueOrganizations,
+  useFetchJobsDispatch,
   useFilteredJobs,
+  useUniqueJobTypes,
   useUniqueOrganizations,
 } from "@/store/composables";
 import { useStore } from "vuex";
@@ -43,6 +43,17 @@ describe("composables", () => {
       });
       const result = useUniqueOrganizations();
       expect(result.value).toEqual(new Set(["Google"]));
+    });
+  });
+
+  describe("useFetchJobsDispatch", () => {
+    it("sends call to fetch jobs from API", () => {
+      const dispatch = jest.fn();
+      useStore.mockReturnValue({
+        dispatch,
+      });
+      useFetchJobsDispatch();
+      expect(dispatch).toHaveBeenCalledWith("FETCH_JOBS");
     });
   });
 });

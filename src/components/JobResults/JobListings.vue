@@ -38,45 +38,38 @@
 
 <script>
 import JobListing from "@/components/JobResults/JobListing.vue";
-import { FETCH_JOBS, FILTERED_JOBS } from "@/store/constants";
-import { mapActions, mapGetters, mapState } from "vuex";
+import useCurrentPage from "@/composables/useCurrentPage";
+import usePreviousAndNextPages from "@/composables/usePreviousAndNextPages";
+import { useFetchJobsDispatch, useFilteredJobs } from "@/store/composables";
+import { computed, onMounted } from "vue";
 
 export default {
   name: "JobListings",
   components: { JobListing },
-  computed: {
-    ...mapState(["jobs"]),
-    ...mapGetters({
-      filteredJobs: FILTERED_JOBS,
-    }),
-    currentPage() {
-      const pageString = this.$route.query.page || "1";
-      return +pageString;
-    },
-    previousPage() {
-      const previousPage = this.currentPage - 1;
-      return previousPage >= 1 ? previousPage : undefined; // check if previous page is >= firstPage(1)
-    },
-    nextPage() {
-      const nextPage = this.currentPage + 1;
-      const maxPage = Math.ceil(this.filteredJobs.length / 10);
-      return nextPage <= maxPage ? nextPage : undefined;
-    },
-    displayedJobs() {
-      const pageNumber = this.currentPage;
+
+  setup() {
+    const fetchJobs = useFetchJobsDispatch();
+    onMounted(() => fetchJobs);
+
+    const filteredJobs = useFilteredJobs();
+
+    // computed functions
+    const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10));
+    const currentPage = useCurrentPage();
+    // destructing properties from the composable
+    const { previousPage, nextPage } = usePreviousAndNextPages(
+      currentPage,
+      maxPage
+    );
+
+    const displayedJobs = computed(() => {
+      const pageNumber = currentPage.value;
       const firstJobIndex = (+pageNumber - 1) * 10;
       const lastJobIndex = +pageNumber * 10;
-      return this.filteredJobs.slice(firstJobIndex, lastJobIndex);
-    },
-  },
-  mounted() {
-    // this.$store.dispatch(FETCH_JOBS);
-    this.fetchJobs();
-  },
-  methods: {
-    ...mapActions({
-      fetchJobs: FETCH_JOBS,
-    }),
+      return filteredJobs.value.slice(firstJobIndex, lastJobIndex);
+    });
+
+    return { filteredJobs, currentPage, previousPage, nextPage, displayedJobs };
   },
 };
 </script>
