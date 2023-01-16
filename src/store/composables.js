@@ -16,7 +16,7 @@ export const useUniqueJobTypes = () => {
   return computed(() => store.getters[UNIQUE_JOB_TYPES]);
 };
 
-export const uniqueOrganizations = () => {
+export const useUniqueOrganizations = () => {
   const store = useStore();
   return computed(() => store.getters[UNIQUE_ORGANIZATIONS]);
 };

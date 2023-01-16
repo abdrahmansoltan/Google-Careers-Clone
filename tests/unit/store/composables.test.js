@@ -2,6 +2,7 @@ import {
   useUniqueJobTypes,
   uniqueOrganizations,
   useFilteredJobs,
+  useUniqueOrganizations,
 } from "@/store/composables";
 import { useStore } from "vuex";
 
@@ -40,7 +41,7 @@ describe("composables", () => {
           UNIQUE_ORGANIZATIONS: new Set(["Google"]),
         },
       });
-      const result = uniqueOrganizations();
+      const result = useUniqueOrganizations();
       expect(result.value).toEqual(new Set(["Google"]));
     });
   });
