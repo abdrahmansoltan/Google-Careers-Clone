@@ -1,12 +1,14 @@
-import getJobs from "@/api/getJobs";
 import actions from "@/store/actions";
+import getJobs from "@/api/getJobs";
 
 jest.mock("@/api/getJobs"); // must be outside any suit
+
+const getJobsMock = getJobs as jest.Mock; // type casting so that we can access the "mockResolvedValue" method
 
 describe("actions", () => {
   describe("FETCH_JOBS", () => {
     beforeEach(() => {
-      getJobs.mockResolvedValue([
+      getJobsMock.mockResolvedValue([
         {
           id: 1,
           title: "Software Developer",
