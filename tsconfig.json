@@ -35,7 +35,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "tests/unit/components/JobSearch/HeadLine.test.ts"  ],
+, "tests/unit/components/JobSearch/HeadLine.test.ts", "tests/unit/components/JobResults/JobFiltersSidebar/JobFiltersSidebar.test.js"  ],
   "exclude": [
     "node_modules"
   ]
