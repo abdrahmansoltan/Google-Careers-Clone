@@ -1,7 +1,7 @@
 import App from "@/App.vue";
 import "@/assets/tailwind.css";
 import router from "@/router";
-import store from "@/store";
+import store, { key } from "@/store";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAngleDown,
@@ -16,7 +16,7 @@ library.add(faSearch, faAngleUp, faAngleDown); // register it to be able to use 
 
 // Registering Global Components
 createApp(App)
-  .use(store)
+  .use(store, key)
   .use(router)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
