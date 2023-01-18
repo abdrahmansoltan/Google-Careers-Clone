@@ -45,11 +45,13 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import HeadLine from "@/components/JobSearch/HeadLine.vue";
 import Spotlight from "@/components/JobSearch/Spotlight.vue";
+import { defineComponent } from "vue";
 import JobSearchForm from "./JobSearchForm.vue";
-export default {
+
+export default defineComponent({
   name: "Hero",
   components: { HeadLine, JobSearchForm, Spotlight },
   data() {
@@ -57,5 +59,5 @@ export default {
       onJobResultsPage: true,
     };
   },
-};
+});
 </script>

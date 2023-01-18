@@ -1,4 +1,4 @@
-const nextElementInList = (list, value) => {
+const nextElementInList = <T>(list: T[], value: T): T => {
   const currentValueIndex = list.indexOf(value);
   const nextValueIndex = (currentValueIndex + 1) % list.length; // to make sure we have an index in the range of the list array
   return list[nextValueIndex];

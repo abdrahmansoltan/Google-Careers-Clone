@@ -25,7 +25,8 @@
 
 <script lang="ts">
 import Accordion from "@/components/Common/Accordion.vue";
-import { defineComponent, ref } from "vue";
+import { key } from "@/store";
+import { defineComponent, PropType, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -38,7 +39,7 @@ export default defineComponent({
       required: true,
     },
     uniqueValues: {
-      type: Set,
+      type: Set as PropType<Set<string>>,
       required: true,
     },
     mutation: {
@@ -48,9 +49,9 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
-    const store = useStore();
+    const store = useStore(key); // pass the injection key to the useStore method to retrieve the typed store.
 
-    const selectedValues = ref([]);
+    const selectedValues = ref<string[]>([]);
 
     const selectValues = () => {
       store.commit(props.mutation, selectedValues.value);
