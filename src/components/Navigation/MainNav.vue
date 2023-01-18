@@ -46,14 +46,16 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
+
 import ActionButton from "@/components/Common/ActionButton.vue";
 import ProfileImage from "@/components/Navigation/ProfileImage.vue";
 import SubNav from "@/components/Navigation/SubNav.vue";
 import { LOGIN_USER } from "@/store/constants";
 import { mapMutations, mapState } from "vuex";
 
-export default {
+export default defineComponent({
   name: "MainNav",
   components: { ActionButton, ProfileImage, SubNav },
   data() {
@@ -82,5 +84,5 @@ export default {
   methods: {
     ...mapMutations([LOGIN_USER]),
   },
-};
+});
 </script>
