@@ -4,7 +4,7 @@ import { nextTick } from "vue";
 
 describe("HeadLine", () => {
   beforeEach(() => {
-    jest.useFakeTimers(); // it finds any of js-timer-functions calls and replace them with the jest-mock function
+    jest.useFakeTimers("legacy"); // it finds any of js-timer-functions calls and replace them with the jest-mock function
   });
   afterEach(() => {
     jest.useRealTimers(); // to undo using the fake timers from jest and returning to the native js-timers
@@ -17,7 +17,6 @@ describe("HeadLine", () => {
   });
 
   it("changing action verb at a consistent interval", () => {
-    jest.spyOn(global, "setInterval"); // as we just want to spy on the function and not use it
     mount(HeadLine);
     expect(setInterval).toHaveBeenCalled();
   });
@@ -34,7 +33,6 @@ describe("HeadLine", () => {
   });
 
   it("removes interval when component disappear", () => {
-    jest.spyOn(global, "clearInterval");
     const wrapper = mount(HeadLine);
     wrapper.unmount();
     expect(clearInterval).toHaveBeenCalled();
