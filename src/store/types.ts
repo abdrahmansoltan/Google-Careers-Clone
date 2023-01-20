@@ -6,6 +6,7 @@ interface GlobalState {
   degrees: Degree[];
   selectedOrganizations: string[];
   selectedJobTypes: string[];
+  selectedDegrees: string[];
 }
 
 export default GlobalState;
