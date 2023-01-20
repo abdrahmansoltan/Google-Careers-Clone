@@ -26,6 +26,7 @@
 <script lang="ts">
 import Accordion from "@/components/Common/Accordion.vue";
 import { key } from "@/store";
+import { CLEAR_USER_JOB_FILTER_SELECTIONS } from "@/store/constants";
 import { defineComponent, PropType, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -52,6 +53,14 @@ export default defineComponent({
     const store = useStore(key); // pass the injection key to the useStore method to retrieve the typed store.
 
     const selectedValues = ref<string[]>([]);
+
+    // this will run on every store-mutation execution
+    store.subscribe((mutation) => {
+      // specify which mutation to react to
+      if (mutation.type === CLEAR_USER_JOB_FILTER_SELECTIONS) {
+        selectedValues.value = []; // reset selected checkboxes on clear-mutation
+      }
+    });
 
     const selectValues = () => {
       store.commit(props.mutation, selectedValues.value);
