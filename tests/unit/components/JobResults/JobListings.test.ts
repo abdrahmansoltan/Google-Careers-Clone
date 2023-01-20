@@ -1,7 +1,11 @@
 import JobListings from "@/components/JobResults/JobListings.vue";
 import useCurrentPage from "@/composables/useCurrentPage";
 import usePreviousAndNextPages from "@/composables/usePreviousAndNextPages";
-import { useFetchJobsDispatch, useFilteredJobs } from "@/store/composables";
+import {
+  useFetchDegreesDispatch,
+  useFetchJobsDispatch,
+  useFilteredJobs,
+} from "@/store/composables";
 import { flushPromises, RouterLinkStub, shallowMount } from "@vue/test-utils";
 import { ref } from "vue";
 jest.mock("@/store/composables");
@@ -32,6 +36,7 @@ describe("JobListings", () => {
 
       shallowMount(JobListings, createConfig());
       expect(useFetchJobsDispatch).toHaveBeenCalled();
+      expect(useFetchDegreesDispatch).toHaveBeenCalled();
     });
   });
 

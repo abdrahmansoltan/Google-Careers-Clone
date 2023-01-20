@@ -39,7 +39,7 @@ export default defineComponent({
       required: true,
     },
     uniqueValues: {
-      type: Set as PropType<Set<string>>,
+      type: [Array, Set] as PropType<string[] | Set<string>>,
       required: true,
     },
     mutation: {
