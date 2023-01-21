@@ -1,4 +1,4 @@
-import { Degree, Job } from "@/api/types";
+import { Job } from "@/api/types";
 import {
   FILTERED_JOBS,
   INCLUDE_JOB_BY_DEGREE,
@@ -9,12 +9,14 @@ import {
   UNIQUE_ORGANIZATIONS,
 } from "@/store/constants";
 import GlobalState from "@/store/types";
+import { INCLUDE_JOB_BY_SKILL } from "./constants";
 
 // for the getters parameter in the helper-getter-function
 interface IncludeJobGetters {
   INCLUDE_JOB_BY_ORGANIZATION: (job: Job) => boolean;
   INCLUDE_JOB_BY_JOB_TYPE: (job: Job) => boolean;
   INCLUDE_JOB_BY_DEGREE: (job: Job) => boolean;
+  INCLUDE_JOB_BY_SKILL: (job: Job) => boolean;
 }
 
 const getters = {
@@ -38,7 +40,8 @@ const getters = {
     return state.jobs
       .filter((job) => getters.INCLUDE_JOB_BY_ORGANIZATION(job))
       .filter((job) => getters.INCLUDE_JOB_BY_JOB_TYPE(job))
-      .filter((job) => getters.INCLUDE_JOB_BY_DEGREE(job));
+      .filter((job) => getters.INCLUDE_JOB_BY_DEGREE(job))
+      .filter((job) => getters.INCLUDE_JOB_BY_SKILL(job));
   },
 
   // --------- HELPER GETTERS ------------ //
@@ -54,6 +57,13 @@ const getters = {
   [INCLUDE_JOB_BY_DEGREE]: (state: GlobalState) => (job: Job) => {
     if (state.selectedDegrees.length === 0) return true;
     return state.selectedDegrees.includes(job.degree);
+  },
+  [INCLUDE_JOB_BY_SKILL]: (state: GlobalState) => (job: Job) => {
+    if (state.skillsSearchTerm.length === 0) return true;
+
+    return job.title
+      .toLowerCase()
+      .includes(state.skillsSearchTerm.toLocaleLowerCase());
   },
 };
 
