@@ -14,6 +14,8 @@
         </div>
       </div>
 
+      <job-filters-sidebar-skills header="Skills and Qualifications" />
+
       <job-filters-sidebar-checkbox-group
         header="Degrees"
         :unique-values="uniqueDegrees"
@@ -38,6 +40,8 @@
 
 <script lang="ts">
 import ActionButton from "@/components/Common/ActionButton.vue";
+import JobFiltersSidebarCheckboxGroup from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarCheckboxGroup.vue";
+import JobFiltersSidebarSkills from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarSkills.vue";
 import { key } from "@/store";
 import {
   useUniqueDegrees,
@@ -49,19 +53,28 @@ import {
   ADD_SELECTED_JOB_TYPES,
   ADD_SELECTED_ORGANIZATIONS,
   CLEAR_USER_JOB_FILTER_SELECTIONS,
+  UPDATE_SKILLS_SEARCH_TERM,
 } from "@/store/constants";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import JobFiltersSidebarCheckboxGroup from "./JobFiltersSidebarCheckboxGroup.vue";
 
 export default defineComponent({
   name: "JobFiltersSidebar",
   components: {
     ActionButton,
     JobFiltersSidebarCheckboxGroup,
+    JobFiltersSidebarSkills,
   },
   setup() {
     const store = useStore(key);
+
+    const parseSkillsSearchTerm = () => {
+      const route = useRoute();
+      const role = route.query.role || "";
+      store.commit(UPDATE_SKILLS_SEARCH_TERM, role);
+    };
+    onMounted(parseSkillsSearchTerm);
 
     const uniqueJobTypes = useUniqueJobTypes();
     const uniqueOrganizations = useUniqueOrganizations();
