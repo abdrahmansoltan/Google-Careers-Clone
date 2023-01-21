@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit --coverage",
     "lint": "vue-cli-service lint",
     "backend": "json-server --watch db.json",
+    "start": "npm run backend & npm run serve",
     "test:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
